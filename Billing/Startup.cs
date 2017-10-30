@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Billing.Data;
+using Billing.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,9 @@ namespace Billing
         {
             services.AddDbContext<MyContext>(options =>
                 options.UseNpgsql(Configuration["ConnectionStrings:DefaultConnection"]));
+
+            services.AddTransient<TransactionRepository>();
+            services.AddTransient<CurrencyBillRepository>();
             
             services.AddMvc();
         }
