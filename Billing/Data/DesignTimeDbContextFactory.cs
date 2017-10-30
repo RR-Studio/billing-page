@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace Storage.Data
+namespace Billing.Data
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MyContext>
     {
