@@ -10,10 +10,10 @@ namespace Billing.Data
     public class DbInitializer
     {
 
-        public static void Initialize(MyContext context)
+        public static async Task Initialize(MyContext context)
         {
             context.Database.EnsureCreated();
-
+            await Seed(context);
            
         }
 
@@ -78,19 +78,21 @@ namespace Billing.Data
 
         public static async Task SeedTransactions(MyContext dbContext)
         {
-            var transactions = new List<Transaction>
+            if (!dbContext.Transactions.Any())
+            {
+                await dbContext.Transactions.AddRangeAsync(new List<Transaction>
                 {
-                new Transaction(){
+                    new Transaction(){
                         DateTime = DateTime.Now,
                         CurrencyName = "BTC",
-                        Amount = 2.5,
+                        Amount = 2.5m,
                         TransactionStatus = TransactionStatus.Appended,
                         ConfirmationsCount = 25
                     },
                 new Transaction(){
                         DateTime = DateTime.Now,
                         CurrencyName = "ETH",
-                        Amount = 3.5,
+                        Amount = 3.5m,
                         TransactionStatus = TransactionStatus.Appended,
                         ConfirmationsCount = 250
                     },
@@ -101,7 +103,8 @@ namespace Billing.Data
                         TransactionStatus = TransactionStatus.Appended,
                         ConfirmationsCount = 2500
                     }
-                };
+                });
+            }
 
             await dbContext.SaveChangesAsync();
         }
